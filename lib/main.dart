@@ -1,11 +1,12 @@
 import 'package:bloc_learn/cubit_stuff/cubit/counter_cubit.dart';
 import 'package:bloc_learn/cubit_stuff/cubit/counter_state.dart';
+import 'package:bloc_learn/cubit_stuff/screens/parent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  // runApp(BlocProvider(create: (_) => CounterCubit(), child: const MyApp()));
-  runApp(const MyApp());
+  runApp(BlocProvider(create: (_) => CounterCubit(), child: const MyApp()));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,22 +34,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final CounterCubit counterCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    counterCubit = CounterCubit();
-  }
-
-  @override
-  void dispose() {
-    counterCubit.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final CounterCubit counterCubit = context.read<CounterCubit>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -71,6 +59,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: counterCubit.decrement,
               child: Text('Subtract button'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => Parent()),
+                );
+              },
+              child: Text('Parent Page'),
             ),
           ],
         ),
